@@ -50,22 +50,37 @@
             return $datos;
         }
 
-        public static function insert($idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$fechaCierreEncargo,$descripcionEncarg){
+        public static function insert($idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$descripcionEncargo){
             $con = new Connection();
-            $query = "INSERT INTO encargos(IdTipo,idEstado,idUsuarioCreador,IdUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES ($idTipo, $idEstado,$idUsuarioCreador,$idUsuarioResponsable, $idInstitucion ,'$fechaCreacionEncargo','$fechaCierreEncargo','$descripcionEncargo')";
+            $idUsuarioResponsable = $idUsuarioResponsable ? NULL : $idUsuarioResponsable;
+            $query = "INSERT INTO encargos(idTipo,idEstado,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
+                $idTipo, 
+                $idEstado,
+                $idUsuarioCreador,
+                " . ($idUsuarioResponsable ? $idUsuarioResponsable : 'NULL') . ", 
+                $idInstitucion, 
+                '$fechaCreacionEncargo', 
+                'NULL',
+                '$descripcionEncargo'
+            )";
             if ($con -> query($query)){
-                echo "se cargo";
                 return TRUE;
             }
             echo $con -> error;
             return FALSE;
         }
 
-        public static function update($idEncargo,$idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$fechaCierreEncargo,$descripcionEncargo){
+        public static function update($idEncargo,$idTipo,$idEstado,$idUsuarioResponsable,$idInstitucion,$fechaCierreEncargo,$descripcionEncargo){
             $con = new Connection();
-            $query = "UPDATE encargo SET IdTipo = '$idTipo', idEstado = '$idEstado, idUsuarioCreador ='$idUsuarioCreador', IdUsuarioResponsable = '$idUsuarioResponsable',idInstitucion = '$idInstitucion', fechacreacionEncargo = '".$fechaCreacionEncargo."', fechaCierreEncargo = '".$fechaCierreEncargo."', descripcionEncargo = '".$descripcionEncargo."' WHERE idEncargo = $idEncargo";
-            $con -> query($query);
-            if ($con -> affcted_rows){
+            $query = "UPDATE encargos SET 
+            IdTipo = $idTipo, 
+            idEstado = $idEstado,  
+            idUsuarioResponsable = " . ($idUsuarioResponsable ? $idUsuarioResponsable : 'NULL') . ", 
+            idInstitucion = $idInstitucion, 
+            fechaCierreEncargo = '" . ($fechaCierreEncargo ? $fechaCierreEncargo : 'NULL') . "', 
+            descripcionEncargo = '$descripcionEncargo' 
+            WHERE idEncargo = $idEncargo";
+            if ($con -> query($query)){
                 return TRUE;
             }
             return FALSE;
@@ -74,8 +89,7 @@
         public static function delete($idEncargo){
             $con = new Connection();
             $query = "DELETE FROM encargos WHERE idEncargo = $idEncargo";
-            $con -> query($query);
-            if ($con -> affcted_rows){
+            if ($con -> query($query)){
                 return TRUE;
             }
             return FALSE;
