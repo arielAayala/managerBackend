@@ -53,7 +53,7 @@
         public static function insert($idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$descripcionEncargo){
             $con = new Connection();
             $idUsuarioResponsable = $idUsuarioResponsable ? NULL : $idUsuarioResponsable;
-            $query = "INSERT INTO encargos(idTipo,idEstado,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
+            $query = "INSERT INTO encargos (idTipo,idEstado,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
                 $idTipo, 
                 $idEstado,
                 $idUsuarioCreador,

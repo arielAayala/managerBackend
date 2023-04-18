@@ -74,6 +74,12 @@ class Psicopedagogos{
         echo $con-> error;
         return FALSE;
     }
+
+   /*  public static function update($idPsicopedagogo, $nombrePsicopedagogo, $dniPsicopedagogo, $nacimientoPsicopedagogo){
+        $con = new Connection();
+        $query = "UPDATE psicopedagogos SET
+        idPsicopedagogo = ";
+    } */
 }
 
 
