@@ -50,15 +50,14 @@
             return $datos;
         }
 
-
-        public static function insert($idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$fechaCierreEncargo,$descripcionEncargo){
+        public static function insert($idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$fechaCierreEncargo,$descripcionEncarg){
             $con = new Connection();
-            $query = "INSERT INTO encargos(idEncargo,IdTipo,idEstado,idUsuarioCreador,IdUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES ('".NULL."','$idTipo','$idEstado','$idUsuarioCreador','$idUsuarioResponsable','$idInstitucion','$fechaCreacionEncargo','$fechaCierreEncargo','$descripcionEncargo')";
+            $query = "INSERT INTO encargos(IdTipo,idEstado,idUsuarioCreador,IdUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES ($idTipo, $idEstado,$idUsuarioCreador,$idUsuarioResponsable, $idInstitucion ,'$fechaCreacionEncargo','$fechaCierreEncargo','$descripcionEncargo')";
             if ($con -> query($query)){
                 echo "se cargo";
                 return TRUE;
             }
-            echo $con -> errno;
+            echo $con -> error;
             return FALSE;
         }
 

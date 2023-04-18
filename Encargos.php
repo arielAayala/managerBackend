@@ -12,7 +12,7 @@
 
         case 'POST':
             $datos = json_decode(file_get_contents("php://input"));
-            if($datos != NULL){
+            if($datos){
                 if (Encargos::insert($datos->idTipo, $datos->idEstado, $datos->idUsuarioCreador, $datos->idUsuarioResponsable, $datos->idInstitucion, $datos->fechaCreacionEncargo, $datos->fechaCierreEncargo, $datos->descripcionEncargo)) {
                     http_response_code(200);
                 }else{
