@@ -14,17 +14,27 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     
     case 'POST':
         $datos = json_decode(file_get_contents("php://input"));
-            if($datos){
-                if (Psicopedagogos::insert($datos -> nombrePsicopedagogo, $datos-> dniPsicopedagogo, $datos -> nacimientoPsicopedagogo)) {
-                    http_response_code(200);
-                }else{
-                    http_response_code(400);
-                }
+        if($datos){
+            if (Psicopedagogos::insert($datos -> nombrePsicopedagogo, $datos-> dniPsicopedagogo, $datos -> nacimientoPsicopedagogo)) {
+                http_response_code(200);
+            }else{
+                http_response_code(400);
+            }
+        }else{
+            http_response_code(405);
+        }
+        break;
+
+    case 'PUT':
+        $datos = json_decode(file_get_contents("php://input"));
+        if($datos){
+            if(Psicopedagogos::update($_GET["idPsicopedagogo"], $datos->nombrePsicopedagogo, $datos->dniPsicopedagogo,$datos->nacimientoPsicopedagogo)){
+                http_response_code(200);
             }else{
                 http_response_code(405);
             }
-            break;
-
+        }
+        break; 
 
     default:
         # code...

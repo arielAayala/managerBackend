@@ -42,20 +42,35 @@ class Psicopedagogos{
     }
 
     public static function insert( $nombrePsicopedagogo, $dniPsicopedagogo, $nacimientoPsicopedagogo){
+        if (!(is_string($nombrePsicopedagogo)) && !(strlen($nombrePsicopedagogo) > 0 ) ){
+            return FALSE;
+        }
+        if( !(strlen(strval($dniPsicopedagogo)) == 8) && !(is_numeric($dniPsicopedagogo)) ){
+            return FALSE;
+        }
+
+        function validateDate($date, $format = 'Y-m-d'){
+            $d = DateTime::createFromFormat($format, $date);
+            return $d && $d->format($format) === $date;
+        }
+
+        if (!( validateDate($nacimientoPsicopedagogo))){
+            return FALSE;
+        }
+
         $con = new Connection();
         $query = "INSERT INTO psicopedagogos(nombrePsicopedagogo, dniPsicopedagogo, nacimientoPsicopedagogo) VALUES(
-            '$nombrePsicopedagogo',
+            '".strtolower($nombrePsicopedagogo)."',
             $dniPsicopedagogo,
             '$nacimientoPsicopedagogo'
         )";
         
         if ($con ->query($query)){
             $idPsicopedagogo = $con -> insert_id;
-            $contrasenaPsicopedagogo = password_hash(strval($dniPsicopedagogo) , PASSWORD_DEFAULT);
             $queryUsuario = "INSERT INTO usuarios(idPsicopedagogo, correoUsuario, contrasenaUsuario) VALUES(
                 $idPsicopedagogo,
-                '".($correoPsicopedagogo = str_replace(" ", "",$nombrePsicopedagogo))."@devtics.edu.ar',
-                '$contrasenaPsicopedagogo')";
+                '".($correoPsicopedagogo = str_replace(" ", "",strtolower($nombrePsicopedagogo)))."@devtics.edu.ar',
+                '".password_hash(strval($dniPsicopedagogo) , PASSWORD_DEFAULT)."')";
             if($con -> query($queryUsuario)){
                 return TRUE;
             }
@@ -64,15 +79,39 @@ class Psicopedagogos{
     }
 
     public static function update($idPsicopedagogo, $nombrePsicopedagogo, $dniPsicopedagogo, $nacimientoPsicopedagogo){
+        if (!(is_string($nombrePsicopedagogo)) && !(strlen($nombrePsicopedagogo) > 0 ) ){
+            return FALSE;
+        }
+        if( !(strlen(strval($dniPsicopedagogo)) == 8) && !(is_numeric($dniPsicopedagogo)) ){
+            return FALSE;
+        }
+
+        function validateDate($date, $format = 'Y-m-d'){
+            $d = DateTime::createFromFormat($format, $date);
+            return $d && $d->format($format) === $date;
+        }
+
+        if (!( validateDate($nacimientoPsicopedagogo))){
+            return FALSE;
+        }
+
         $con = new Connection();
         $query = "UPDATE psicopedagogos SET
-        idPsicopedagogo = $idPsicopedagogo,
-        nombrePsicopedagogo = '$nombrePsicopedagogo',
+        nombrePsicopedagogo = '".strtolower($nombrePsicopedagogo)."',
         dniPsicopedagogo = $dniPsicopedagogo,
-        nacimientoPsicopedagogo = '$nacimientoPsicopedagogo'";
-        if ($con -> query($query)){
+        nacimientoPsicopedagogo = '$nacimientoPsicopedagogo'
+        WHERE idPsicopedagogo = $idPsicopedagogo";
+
+        $queryUsuario = "UPDATE usuarios SET
+        correoUsuario = '".$correoPsicopedagogo = strtolower(str_replace(" ", "",$nombrePsicopedagogo))."@devtics.edu.ar',
+        contrasenaUsuario = '".password_hash($dniPsicopedagogo,PASSWORD_DEFAULT)."'
+        WHERE idPsicopedagogo = $idPsicopedagogo";
+
+
+        if ($con -> query($query) && $con -> query($queryUsuario)){
             return TRUE;
         }
+        echo $con -> errno;
         return FALSE;
     } 
 }

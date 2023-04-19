@@ -78,7 +78,7 @@
             idUsuarioResponsable = " . ($idUsuarioResponsable ? $idUsuarioResponsable : 'NULL') . ", 
             idInstitucion = $idInstitucion, 
             fechaCierreEncargo = '" . ($fechaCierreEncargo ? $fechaCierreEncargo : 'NULL') . "', 
-            descripcionEncargo = '$descripcionEncargo' 
+            descripcionEncargo = '$descripcionEncargo'
             WHERE idEncargo = $idEncargo";
             if ($con -> query($query)){
                 return TRUE;

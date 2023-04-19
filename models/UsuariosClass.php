@@ -6,18 +6,22 @@ class Usuarios{
 
     public static function login($correoUsuario,$contrasenaUsuario){
         $con = new Connection();
-        /* $contrasenaUsuario = password_hash($contrasenaUsuario, PASSWORD_DEFAULT); */
-        $query = "SELECT * FROM usuarios WHERE contrasenaUsuario = $contrasenaUsuario AND correoUsuario = '$correoUsuario'";
+        $query = "SELECT * FROM usuarios WHERE correoUsuario = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("s", $correoUsuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
         $datos = [];
-        $resultado = $con -> query($query);
-        if ( $resultado -> num_rows){
-            while ($row = $resultado->fetch_assoc()){
-                $datos[] =[
-                    "idUsuario" => $row["idUsuario"],
-                    "idPsicopedagogo" => $row["idPsicopedagogo"],
-                    "correoUsuario" => $row["correoUsuario"],
-                    "contrasenaUsuario" => $row["contrasenaUsuario"],
-                ];
+        if ($resultado->num_rows > 0) {
+            while ($row = $resultado->fetch_assoc()) {
+                if (password_verify($contrasenaUsuario, $row["contrasenaUsuario"])) {
+                    $datos[] = [
+                        "idUsuario" => $row["idUsuario"],
+                        "idPsicopedagogo" => $row["idPsicopedagogo"],
+                        "correoUsuario" => $row["correoUsuario"],
+                        "contrasenaUsuario" => $row["contrasenaUsuario"],
+                    ];
+                }
             }
         }
         return $datos;
