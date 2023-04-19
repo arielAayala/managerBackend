@@ -9,7 +9,7 @@
             $query = "SELECT * FROM encargos";
             $resultado = $db->query($query);
             $datos =[];
-            if($resultado->num_rows){
+            if($resultado->num_rows>=0){
                 while($row = $resultado->fetch_assoc() ){
                     $datos[] =[
                         "idEncargo" => $row["idEncargo"],
@@ -32,7 +32,7 @@
             $query = "SELECT * FROM encargos WHERE idEncargo = $idEncargo";
             $resultado = $con->query($query);
             $datos =[];
-            if($resultado->num_rows){
+            if($resultado->num_rows>=0){
                 while($row = $resultado->fetch_assoc() ){
                     $datos[] =[
                         "idEncargo" => $row["idEncargo"],

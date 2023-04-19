@@ -27,23 +27,6 @@ class Usuarios{
         return $datos;
     }   
 
-    public static function getAll (){
-        $con = new Connection();
-        $query = "SELECT * FROM usuarios";
-        $datos = [];
-        $resultado = $con -> query($query);
-        if ( $resultado -> num_rows){
-            while ($row = $resultado->fetch_assoc()){
-                $datos[] =[
-                    "idUsuario" => $row["idUsuario"],
-                    "idPsicopedagogo" => $row["idPsicopedagogo"],
-                    "correoUsuario" => $row["correoUsuario"],
-                    "contrasenaUsuario" => $row["contrasenaUsuario"],
-                ];
-            }
-        }
-        return $datos;
-    }
 }
 
 ?>

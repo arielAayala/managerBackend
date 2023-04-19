@@ -9,7 +9,7 @@ class Psicopedagogos{
         $query = "SELECT * FROM psicopedagogos";
         $resultado = $con->query($query);
         $datos=[];
-        if($resultado->num_rows){
+        if($resultado->num_rows>=0){
             while($row = $resultado->fetch_assoc() ){
                 $datos[]=[
                     "idPsicopedagogo" => $row["idPsicopedagogo"],
@@ -28,7 +28,7 @@ class Psicopedagogos{
         $query = "SELECT * FROM psicopedagogos WHERE idpsicopedagogo = $idPsicopedagogo";
         $resultado = $con->query($query);
         $datos=[];
-        if($resultado->num_rows){
+        if($resultado->num_rows>=0){
             while($row = $resultado-> fetch_assoc()){
                 $datos[]=[
                     "idPsicopedagogo" => $row["idPsicopedagogo"],

@@ -13,11 +13,6 @@
             }
             break;
 
-        case 'GET':
-            header("Content-Type: JSON");
-            echo json_encode(Usuarios::getAll());
-            break;
-
         default:
             # code...
             break;
