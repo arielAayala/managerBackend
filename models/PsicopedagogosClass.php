@@ -55,8 +55,7 @@ class Psicopedagogos{
             $queryUsuario = "INSERT INTO usuarios(idPsicopedagogo, correoUsuario, contrasenaUsuario) VALUES(
                 $idPsicopedagogo,
                 '".($correoPsicopedagogo = str_replace(" ", "",$nombrePsicopedagogo))."@devtics.edu.ar',
-                $contrasenaPsicopedagogo
-            )";
+                '$contrasenaPsicopedagogo')";
             if($con -> query($queryUsuario)){
                 return TRUE;
             }
@@ -64,22 +63,18 @@ class Psicopedagogos{
         return FALSE;
     }
 
-    public static function delete($idPsicopedagogo){
-        $con = new Connection();
-        $query = "DELETE FROM psicopedagogos WHERE $idPsicopedagogo = idPsicopedagogo";
-        $queryUsuario ="DELETE FROM usuarios WHERE $idPsicopedagogo = idUsuario";
-        if ( $con -> query($queryUsuario)&& $con -> query($query) ){
-            return TRUE;
-        }
-        echo $con-> error;
-        return FALSE;
-    }
-
-   /*  public static function update($idPsicopedagogo, $nombrePsicopedagogo, $dniPsicopedagogo, $nacimientoPsicopedagogo){
+    public static function update($idPsicopedagogo, $nombrePsicopedagogo, $dniPsicopedagogo, $nacimientoPsicopedagogo){
         $con = new Connection();
         $query = "UPDATE psicopedagogos SET
-        idPsicopedagogo = ";
-    } */
+        idPsicopedagogo = $idPsicopedagogo,
+        nombrePsicopedagogo = '$nombrePsicopedagogo',
+        dniPsicopedagogo = $dniPsicopedagogo,
+        nacimientoPsicopedagogo = '$nacimientoPsicopedagogo'";
+        if ($con -> query($query)){
+            return TRUE;
+        }
+        return FALSE;
+    } 
 }
 
 

@@ -25,12 +25,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
             break;
 
-    case 'DELETE':
-        if (Psicopedagogos::delete($_GET["idPsicopedagogo"])) {
-            http_response_code(200);
-        } else {
-            http_response_code(400);
-        } 
 
     default:
         # code...

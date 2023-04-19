@@ -86,14 +86,5 @@
             return FALSE;
         }
 
-        public static function delete($idEncargo){
-            $con = new Connection();
-            $query = "DELETE FROM encargos WHERE idEncargo = $idEncargo";
-            if ($con -> query($query)){
-                return TRUE;
-            }
-            return FALSE;
-        }
-
     }
 ?>

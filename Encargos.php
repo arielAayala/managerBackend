@@ -24,15 +24,6 @@
             }
             break;
 
-        case 'DELETE':
-            if (Encargos::delete($_GET["idEncargo"])) {
-                http_response_code(200);
-            } else {
-                http_response_code(400);
-            }
-            
-            break;
-
         case 'PUT':
             $datos = json_decode(file_get_contents("php://input"));
             if($datos){
