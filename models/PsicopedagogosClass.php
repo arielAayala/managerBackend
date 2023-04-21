@@ -67,7 +67,8 @@ class Psicopedagogos{
         
         if ($con ->query($query)){
             $idPsicopedagogo = $con -> insert_id;
-            $queryUsuario = "INSERT INTO usuarios(idPsicopedagogo, correoUsuario, contrasenaUsuario) VALUES(
+            $queryUsuario = "INSERT INTO usuarios(idUsuario, idPsicopedagogo, correoUsuario, contrasenaUsuario) VALUES(
+                $idPsicopedagogo,
                 $idPsicopedagogo,
                 '".($correoPsicopedagogo = str_replace(" ", "",strtolower($nombrePsicopedagogo)))."@devtics.edu.ar',
                 '".password_hash(strval($dniPsicopedagogo) , PASSWORD_DEFAULT)."')";

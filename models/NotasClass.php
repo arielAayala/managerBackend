@@ -2,10 +2,8 @@
     include_once "connectionDB/ConnectionDB.php";
 
     class Notas{
-
+        /* Funcion para crear Notas en la base de datos, tambien se valida los datos  */
         public static function insert($idEncargo, $idUsuarioCreador, $idNuevoResponsable, $fechaCreacionNota, $comentarioNota){
-
-
             if(!(is_int($idNuevoResponsable)) && !($idNuevoResponsable == NULL)){
                 echo "hola";
                 return FALSE;
@@ -28,7 +26,7 @@
             }
             
             return FALSE;
-        }
+        }// End Insert
 
         public static function getByIdEncargo($idEncargo){
             $con = new Connection();
