@@ -1,5 +1,7 @@
 <?php
 
+    include_once "connectionDB/ConnectionDB.php";
+
     class Instituciones{
 
         public static function getAll(){
@@ -21,8 +23,27 @@
             return $datos; 
         }
 
-        public static function insert($nombreInstitucion){
+        public static function insert($nombreInstitucion, $idLocalidad, $nombreResponsableInstitucion, $domicilioInstitucion){
+            if(!(is_int($idLocalidad))){
+                return FALSE;
+            }
 
+            if( strlen($nombreInstitucion)== 0 && strlen($domicilioInstitucion) == 0 && strlen($nombreResponsableInstitucion)== 0){
+                return FALSE;
+            }
+
+            $con = new Connection();
+            $query = "INSERT INTO instituciones(nombreInstitucion, idLocalidad, nombreResponsableInstitucion, domicilioInstitucion) VALUES(
+                '$nombreInstitucion',
+                $idLocalidad,
+                '$nombreResponsableInstitucion',
+                '$domicilioInstitucion'
+            )";
+            if ($con-> query($query)){
+                return TRUE;
+            }else{  
+                return FALSE;
+            }
         }
     }
 
