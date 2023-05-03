@@ -4,6 +4,8 @@
 
     switch ($_SERVER["REQUEST_METHOD"]) {
         case 'POST':
+            header("Access-Control-Allow-Origin: http://localhost:3000");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
             header("Content-Type: JSON");
             $datos = json_decode(file_get_contents("php://input"));
             if ($datos){
