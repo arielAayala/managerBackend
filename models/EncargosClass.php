@@ -6,18 +6,20 @@
 
         public static function getAll(){
             $db = new Connection();
-            $query = "SELECT * FROM encargos";
+            $query = "SELECT e.idEncargo, t.nombreTipos, estados.nombreEstado, i.nombreInstitucion, e.fechaCreacionEncargo, e.fechaCierreEncargo, e.descripcionEncargo,e.idUsuarioCreador,p.nombrePsicopedagogo as nombreCreador,e.idUsuarioResponsable,d.nombrePsicopedagogo as nombreResponsable FROM encargos e INNER JOIN tipos t ON e.idTipo = t.idTipo INNER JOIN estados ON e.idEstado = estados.idEstado INNER JOIN instituciones i ON e.idInstitucion = i.idInstitucion INNER JOIN usuarios u ON e.idUsuarioCreador = u.idUsuario INNER JOIN psicopedagogos p ON u.idPsicopedagogo = p.idPsicopedagogo INNER JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario INNER JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo";
             $resultado = $db->query($query);
             $datos =[];
             if($resultado->num_rows>=0){
                 while($row = $resultado->fetch_assoc() ){
                     $datos[] =[
                         "idEncargo" => $row["idEncargo"],
-                        "idTipo" => $row["idTipo"],
-                        "idEstado" => $row["idEstado"],
+                        "nombreTipo" => $row["nombreTipos"],
+                        "nombreEstado" => $row["nombreEstado"],
                         "idUsuarioCreador" => $row["idUsuarioCreador"],
+                        "nombreCreador" => $row["nombreCreador"],
                         "idUsuarioResponsable" => $row["idUsuarioResponsable"],
-                        "idInstitucion" => $row["idInstitucion"],
+                        "nombreResponsable" => $row["nombreResponsable"],
+                        "nombreInstitucion" => $row["nombreInstitucion"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
                         "fechaCierreEncargo" => $row["fechaCierreEncargo"],
                         "descripcionEncargo" => $row["descripcionEncargo"],
