@@ -25,7 +25,7 @@ class Psicopedagogos{
 
     public static function getById($idPsicopedagogo){
         $con = new Connection();
-        $query = "SELECT * FROM psicopedagogos WHERE idpsicopedagogo = $idPsicopedagogo";
+        $query = "SELECT * FROM psicopedagogos WHERE idPsicopedagogo = $idPsicopedagogo";
         $resultado = $con->query($query);
         $datos=[];
         if($resultado->num_rows>=0){
