@@ -13,9 +13,11 @@ class Psicopedagogos{
             while($row = $resultado->fetch_assoc() ){
                 $datos[]=[
                     "idPsicopedagogo" => $row["idPsicopedagogo"],
+                    "descripcionPsicopedagogo" => $row["descripcionPsicopedagogo"],
                     "nombrePsicopedagogo" => $row["nombrePsicopedagogo"],
-                    "dniPsicopedagogo" => $row["dniPsicopedagogo"],
+                    "fotoPsicopedagogo" => $row["fotoPsicopedagogo"],
                     "nacimientoPsicopedagogo" => $row["nacimientoPsicopedagogo"],
+                    "especialidadPsicopedagogo" => $row["especialidadPsicopedagogo"],
                 ];
             }
         }
@@ -35,6 +37,9 @@ class Psicopedagogos{
                     "nombrePsicopedagogo" => $row["nombrePsicopedagogo"],
                     "dniPsicopedagogo" => $row["dniPsicopedagogo"],
                     "nacimientoPsicopedagogo" => $row["nacimientoPsicopedagogo"],
+                    "fotoPsicopedagogo" => $row["fotoPsicopedagogo"],
+                    "especialidadPsicopedagogo" => $row["especialidadPsicopedagogo"],
+
                 ];
             }
         }
