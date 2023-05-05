@@ -6,7 +6,8 @@ class Psicopedagogos{
 
     public static function getAll(){
         $con = new Connection();
-        $query = "SELECT * FROM psicopedagogos";
+        $query = "SELECT idPsicopedagogo, descripcionPsicopedagogo, nombrePsicopedagogo, fotoPsicopedagogo, nacimientoPsicopedagogo, especialidadPsicopedagogo, TIMESTAMPDIFF(YEAR, nacimientoPsicopedagogo, NOW()) AS edadPsicopedagogo
+        FROM psicopedagogos";
         $resultado = $con->query($query);
         $datos=[];
         if($resultado->num_rows>=0){
@@ -16,8 +17,9 @@ class Psicopedagogos{
                     "descripcionPsicopedagogo" => $row["descripcionPsicopedagogo"],
                     "nombrePsicopedagogo" => $row["nombrePsicopedagogo"],
                     "fotoPsicopedagogo" => $row["fotoPsicopedagogo"],
+                    "edadPsicopedagogo" => $row["edadPsicopedagogo"],
                     "nacimientoPsicopedagogo" => $row["nacimientoPsicopedagogo"],
-                    "especialidadPsicopedagogo" => $row["especialidadPsicopedagogo"],
+                    "especialidadPsicopedagogo" => $row["especialidadPsicopedagogo"]
                 ];
             }
         }
@@ -27,19 +29,19 @@ class Psicopedagogos{
 
     public static function getById($idPsicopedagogo){
         $con = new Connection();
-        $query = "SELECT * FROM psicopedagogos WHERE idPsicopedagogo = $idPsicopedagogo";
+        $query = "SELECT idPsicopedagogo, descripcionPsicopedagogo, nombrePsicopedagogo, fotoPsicopedagogo, nacimientoPsicopedagogo, especialidadPsicopedagogo, TIMESTAMPDIFF(YEAR, nacimientoPsicopedagogo, NOW()) AS edadPsicopedagogo FROM psicopedagogos WHERE idPsicopedagogo = $idPsicopedagogo";
         $resultado = $con->query($query);
         $datos=[];
         if($resultado->num_rows>=0){
             while($row = $resultado-> fetch_assoc()){
                 $datos[]=[
                     "idPsicopedagogo" => $row["idPsicopedagogo"],
+                    "descripcionPsicopedagogo" => $row["descripcionPsicopedagogo"],
                     "nombrePsicopedagogo" => $row["nombrePsicopedagogo"],
-                    "dniPsicopedagogo" => $row["dniPsicopedagogo"],
-                    "nacimientoPsicopedagogo" => $row["nacimientoPsicopedagogo"],
                     "fotoPsicopedagogo" => $row["fotoPsicopedagogo"],
-                    "especialidadPsicopedagogo" => $row["especialidadPsicopedagogo"],
-
+                    "edadPsicopedagogo" => $row["edadPsicopedagogo"],
+                    "nacimientoPsicopedagogo" => $row["nacimientoPsicopedagogo"],
+                    "especialidadPsicopedagogo" => $row["especialidadPsicopedagogo"]
                 ];
             }
         }
