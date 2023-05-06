@@ -6,16 +6,17 @@
 
         public static function getAll(){
             $db = new Connection();
-            $query = "SELECT e.idEncargo, e.tituloEncargo, t.nombreTipo, estados.nombreEstado, i.nombreInstitucion, e.fechaCreacionEncargo, e.fechaCierreEncargo, e.descripcionEncargo,e.idUsuarioCreador,
-            p.nombrePsicopedagogo as nombreCreador,p.fotoPsicopedagogo as fotoCreador  ,e.idUsuarioResponsable,
-            d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable FROM encargos e 
+            $query = "SELECT e.idEncargo, e.tituloEncargo, t.nombreTipo, estados.nombreEstado, i.nombreInstitucion, e.fechaCreacionEncargo, e.fechaCierreEncargo, e.descripcionEncargo, 
+            e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
+            e.idUsuarioResponsable, d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable 
+            FROM encargos e 
             INNER JOIN tipos t ON e.idTipo = t.idTipo 
             INNER JOIN estados ON e.idEstado = estados.idEstado 
             INNER JOIN instituciones i ON e.idInstitucion = i.idInstitucion 
             INNER JOIN usuarios u ON e.idUsuarioCreador = u.idUsuario 
             INNER JOIN psicopedagogos p ON u.idPsicopedagogo = p.idPsicopedagogo 
-            INNER JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
-            INNER JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo";
+            LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
+            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo";
             $resultado = $db->query($query);
             $datos =[];
             if($resultado->num_rows>=0){
