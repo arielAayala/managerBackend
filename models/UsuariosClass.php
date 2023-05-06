@@ -6,7 +6,7 @@ class Usuarios{
 
     public static function login($correoUsuario,$contrasenaUsuario){
         $con = new Connection();
-        $query = "SELECT u.correoUsuario, u.contrasenaUsuario, u.idUsuario, u.idPsicopedagogo FROM usuarios u INNER JOIN  psicopedagogos p ON p.idPsicopedagogo = u.idPsicopedagogo  WHERE correoUsuario = ?";
+        $query = "SELECT u.correoUsuario, u.contrasenaUsuario, u.idUsuario, u.idPsicopedagogo, p.fotoPsicopedagogo FROM usuarios u INNER JOIN  psicopedagogos p ON p.idPsicopedagogo = u.idPsicopedagogo  WHERE correoUsuario = ?";
         $stmt = $con->prepare($query);
         $stmt->bind_param("s", $correoUsuario);
         $stmt->execute();
@@ -18,6 +18,7 @@ class Usuarios{
                     $datos[] = [
                         "idUsuario" => $row["idUsuario"],
                         "idPsicopedagogo" => $row["idPsicopedagogo"],
+                        "fotoPsicopedagogo" => $row["fotoPsicopedagogo"]
                     ];
                 }
             }

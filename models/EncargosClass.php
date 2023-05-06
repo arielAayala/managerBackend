@@ -6,6 +6,31 @@
 
         public static function getAll(){
             $db = new Connection();
+            $query = "SELECT e.idEncargo, e.tituloEncargo, estados.nombreEstado,  e.fechaCreacionEncargo,  
+            d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable 
+            FROM encargos e 
+            INNER JOIN estados ON e.idEstado = estados.idEstado 
+            LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
+            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo";
+            $resultado = $db->query($query);
+            $datos =[];
+            if($resultado->num_rows>=0){
+                while($row = $resultado->fetch_assoc() ){
+                    $datos[] =[
+                        "idEncargo" => $row["idEncargo"],
+                        "tituloEncargo" => $row["tituloEncargo"],
+                        "nombreEstado" => $row["nombreEstado"],
+                        "nombreResponsable" => $row["nombreResponsable"],
+                        "fotoResponsable" => $row["fotoResponsable"],
+                        "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
+                    ];
+                }
+            }
+            return $datos;
+        }
+
+        public static function getById($idEncargo){
+            $con = new Connection();
             $query = "SELECT e.idEncargo, e.tituloEncargo, t.nombreTipo, estados.nombreEstado, i.nombreInstitucion, e.fechaCreacionEncargo, e.fechaCierreEncargo, e.descripcionEncargo, 
             e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
             e.idUsuarioResponsable, d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable 
@@ -16,8 +41,9 @@
             INNER JOIN usuarios u ON e.idUsuarioCreador = u.idUsuario 
             INNER JOIN psicopedagogos p ON u.idPsicopedagogo = p.idPsicopedagogo 
             LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
-            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo";
-            $resultado = $db->query($query);
+            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo
+            WHERE e.idEncargo = $idEncargo";
+            $resultado = $con->query($query);
             $datos =[];
             if($resultado->num_rows>=0){
                 while($row = $resultado->fetch_assoc() ){
@@ -33,29 +59,6 @@
                         "nombreResponsable" => $row["nombreResponsable"],
                         "fotoResponsable" => $row["fotoResponsable"],
                         "nombreInstitucion" => $row["nombreInstitucion"],
-                        "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
-                        "fechaCierreEncargo" => $row["fechaCierreEncargo"],
-                        "descripcionEncargo" => $row["descripcionEncargo"],
-                    ];
-                }
-            }
-            return $datos;
-        }
-
-        public static function getById($idEncargo){
-            $con = new Connection();
-            $query = "SELECT * FROM encargos WHERE idEncargo = $idEncargo";
-            $resultado = $con->query($query);
-            $datos =[];
-            if($resultado->num_rows>=0){
-                while($row = $resultado->fetch_assoc() ){
-                    $datos[] =[
-                        "idEncargo" => $row["idEncargo"],
-                        "idTipo" => $row["idTipo"],
-                        "idEstado" => $row["idEstado"],
-                        "idUsuarioCreador" => $row["idUsuarioCreador"],
-                        "idUsuarioResponsable" => $row["idUsuarioResponsable"],
-                        "idInstitucion" => $row["idInstitucion"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
                         "fechaCierreEncargo" => $row["fechaCierreEncargo"],
                         "descripcionEncargo" => $row["descripcionEncargo"],
