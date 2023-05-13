@@ -68,39 +68,26 @@
             return $datos;
         }
 
-        public static function insert($idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$descripcionEncargo){
-            function validateDate($date, $format = 'Y-m-d'){
-                $d = DateTime::createFromFormat($format, $date);
-                return $d && $d->format($format) === $date;
-            }
-    
-            if (!(validateDate($fechaCreacionEncargo))){
-                return FALSE;
-            }
-
-            if(!(is_int($idUsuarioResponsable)) && !($idUsuarioResponsable == NULL)){
-                return FALSE;
-            }
-
-            if(!(is_int($idTipo)) || !(is_int($idEstado)) || !(is_int($idUsuarioCreador)) || !(is_int($idInstitucion))){
-                return FALSE;
-            }
+        public static function insert($tituloEncargo,$idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$descripcionEncargo){
             
             $con = new Connection();
-            $idUsuarioResponsable = $idUsuarioResponsable ? NULL : $idUsuarioResponsable;
-            $query = "INSERT INTO encargos (idTipo,idEstado,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
+            $idUsuarioResponsable = $idUsuarioResponsable ? $idUsuarioResponsable: NULL;
+            $query = "INSERT INTO encargos (tituloEncargo,idTipo,idEstado,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
+                '$tituloEncargo',
                 $idTipo, 
                 $idEstado,
                 $idUsuarioCreador,
-                " . ($idUsuarioResponsable ? $idUsuarioResponsable : 'NULL') . ", 
+                $idUsuarioResponsable, 
                 $idInstitucion, 
                 '$fechaCreacionEncargo', 
-                'NULL',
+                NULL,
                 '$descripcionEncargo'
-            )";
+            );";
+            
             if ($con -> query($query)){
                 return TRUE;
             }
+            echo $con -> error;
             return FALSE;
         }
 

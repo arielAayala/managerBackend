@@ -14,9 +14,6 @@
                     $datos[]=[
                         "idInstitucion" => $row["idInstitucion"],
                         "nombreInstitucion" => $row["nombreInstitucion"],
-                        "idLocalidad" => $row["idLocalidad"],
-                        "nombreResponsableInstitucion" => $row["nombreResponsableInstitucion"],
-                        "domicilioInstitucion" =>$row["domicilioInstitucion"]
                     ];
                 }
             }

@@ -26,6 +26,22 @@ class Usuarios{
         return $datos;
     }   
 
+
+    public static function getAll(){
+        $con = new Connection();
+        $query = "SELECT u.idUsuario, p.nombrePsicopedagogo FROM usuarios u INNER JOIN  psicopedagogos p ON p.idPsicopedagogo = u.idPsicopedagogo ";
+        $resultado = $con->query($query);
+        $datos=[];
+        if ($resultado -> num_rows >=0) {
+            while($row = $resultado->fetch_assoc()){
+                $datos[]=[
+                    "idUsuario" =>$row["idUsuario"],
+                    "nombrePsicopedagogo" =>$row["nombrePsicopedagogo"]
+                ];
+            }
+        }
+        return $datos;
+    }
 }
 
 ?>

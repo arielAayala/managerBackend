@@ -4,8 +4,10 @@
 
     switch ($_SERVER["REQUEST_METHOD"]) {
         case 'GET':
+            header("Access-Control-Allow-Origin: http://localhost:3000");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
             header("Content-Type: JSON");
-            json_encode(Instituciones::getAll());
+            echo json_encode(Instituciones::getAll());
             break;
         
         case 'POST':

@@ -12,9 +12,12 @@
             break;
 
         case 'POST':
+            header("Access-Control-Allow-Origin: http://localhost:3000");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+            header("Content-Type: JSON");
             $datos = json_decode(file_get_contents("php://input"));
             if($datos){
-                if (Encargos::insert($datos->idTipo, $datos->idEstado, $datos->idUsuarioCreador, $datos->idUsuarioResponsable, $datos->idInstitucion, $datos->fechaCreacionEncargo, $datos->descripcionEncargo)) {
+                if (Encargos::insert($datos->tituloEncargo,$datos->idTipo, $datos->idEstado, $datos->idUsuarioCreador, $datos->idUsuarioResponsable, $datos->idInstitucion, $datos->fechaCreacionEncargo, $datos->descripcionEncargo)) {
                     http_response_code(200);
                 }else{
                     http_response_code(400);
