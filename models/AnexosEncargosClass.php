@@ -6,14 +6,15 @@
 
         public static function getByIdEncargo($idEncargo){
             $con = new Connection();
-            $query = "SELECT * FROM anexos WHERE idEncargo = $idEncargo";
+            $query = "SELECT * FROM encargos_anexos WHERE idEncargo = $idEncargo";
             $datos = [];
             $resultado = $con -> query($query);
             if ($resultado -> num_rows >=0){
                 while( $row = $resultado -> fetch_assoc()){
                     $datos[] =[
-                        "idNota" => $row["idNota"],
-                        "urlAnexo" => $row["urlAnexo"],
+                        "idEncargoAnexo" => $row["idEncargoAnexo"],
+                        "idEncargo" => $row["idEncargo"],
+                        "urlEncargoAnexo" => $row["urlEncargoAnexo"],
                     ];
                 }
             }

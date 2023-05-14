@@ -3,6 +3,8 @@
     
     switch($_SERVER["REQUEST_METHOD"]){
         case 'GET':
+            header("Access-Control-Allow-Origin: http://localhost:3000");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
             header("Content-Type: JSON");
             if (isset($_GET["idEncargo"])){
                 echo json_encode(Encargos::getById($_GET["idEncargo"]));
