@@ -31,7 +31,7 @@
 
         public static function getById($idEncargo){
             $con = new Connection();
-            $query = "SELECT e.idEncargo, e.tituloEncargo, t.nombreTipo, estados.nombreEstado, i.nombreInstitucion, e.fechaCreacionEncargo, e.fechaCierreEncargo, e.descripcionEncargo, 
+            $query = "SELECT e.idEncargo, e.tituloEncargo, e.idTipo,e.idEstado,e.idInstitucion,t.nombreTipo, estados.nombreEstado, i.nombreInstitucion, e.fechaCreacionEncargo, e.fechaCierreEncargo, e.descripcionEncargo, 
             e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
             e.idUsuarioResponsable, d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable 
             FROM encargos e 
@@ -51,7 +51,9 @@
                         "idEncargo" => $row["idEncargo"],
                         "tituloEncargo" => $row["tituloEncargo"],
                         "nombreTipo" => $row["nombreTipo"],
+                        "idTipo" => $row["idTipo"],
                         "nombreEstado" => $row["nombreEstado"],
+                        "idEstado" => $row["idEstado"],
                         "idUsuarioCreador" => $row["idUsuarioCreador"],
                         "nombreCreador" => $row["nombreCreador"],
                         "fotoCreador" => $row["fotoCreador"],
@@ -59,6 +61,7 @@
                         "nombreResponsable" => $row["nombreResponsable"],
                         "fotoResponsable" => $row["fotoResponsable"],
                         "nombreInstitucion" => $row["nombreInstitucion"],
+                        "idInstitucion" => $row["idInstitucion"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
                         "fechaCierreEncargo" => $row["fechaCierreEncargo"],
                         "descripcionEncargo" => $row["descripcionEncargo"],
@@ -91,33 +94,9 @@
             return FALSE;
         }
 
-        public static function update($idEncargo,$idTipo,$idEstado,$idUsuarioResponsable,$idInstitucion,$fechaCierreEncargo,$descripcionEncargo){
-
-            function validateDate($date, $format = 'Y-m-d'){
-                $d = DateTime::createFromFormat($format, $date);
-                return $d && $d->format($format) === $date;
-            }
-    
-            if (!(validateDate($fechaCierreEncargo)) && !($fechaCierreEncargo == NULL)){
-                return FALSE;
-            }
-
-            if(!(is_int($idUsuarioResponsable)) && !($idUsuarioResponsable == NULL)){
-                return FALSE;
-            }
-
-            if(!(is_int($idTipo)) || !(is_int($idEstado))  || !(is_int($idUsuarioCreador)) || !(is_int($idInstitucion))){
-                return FALSE;
-            }
-
+        public static function update($idEncargo, $tituloEncargo,$idTipo,$idEstado,$idUsuarioResponsable,$idInstitucion,$descripcionEncargo){
             $con = new Connection();
-            $query = "UPDATE encargos SET 
-            IdTipo = $idTipo, 
-            idEstado = $idEstado,  
-            idUsuarioResponsable = " . ($idUsuarioResponsable ? $idUsuarioResponsable : 'NULL') . ", 
-            idInstitucion = $idInstitucion, 
-            fechaCierreEncargo = '" . ($fechaCierreEncargo ? $fechaCierreEncargo : 'NULL') . "', 
-            descripcionEncargo = '$descripcionEncargo'
+            $query = "UPDATE encargos SET tituloEncargo = '$tituloEncargo', idTipo = $idTipo, idEstado = $idEstado,  idUsuarioResponsable = $idUsuarioResponsable, idInstitucion = $idInstitucion, descripcionEncargo = '$descripcionEncargo'
             WHERE idEncargo = $idEncargo";
             if ($con -> query($query)){
                 return TRUE;
