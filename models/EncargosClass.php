@@ -6,12 +6,7 @@
 
         public static function getAll(){
             $db = new Connection();
-            $query = "SELECT e.idEncargo, e.tituloEncargo, estados.nombreEstado,  e.fechaCreacionEncargo,  
-            d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable 
-            FROM encargos e 
-            INNER JOIN estados ON e.idEstado = estados.idEstado 
-            LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
-            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo";
+            $query = "SELECT e.idEncargo, e.tituloEncargo, estados.nombreEstado, e.fechaCreacionEncargo, d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, CONCAT('[', GROUP_CONCAT( CONCAT('{\"nombreMotivo\": \"',m.nombreMotivo,'\"}')), ']') as motivosEncargo FROM encargos e INNER JOIN estados ON e.idEstado = estados.idEstado LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo LEFT JOIN encargos_motivos em ON em.idEncargo = e.idEncargo LEFT JOIN motivos m ON em.idMotivo = m.idMotivo GROUP BY e.idEncargo, e.tituloEncargo, estados.nombreEstado, e.fechaCreacionEncargo, nombreResponsable, fotoResponsable";
             $resultado = $db->query($query);
             $datos =[];
             if($resultado->num_rows>=0){
@@ -23,6 +18,7 @@
                         "nombreResponsable" => $row["nombreResponsable"],
                         "fotoResponsable" => $row["fotoResponsable"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
+                        "motivosEncargo" => json_decode($row["motivosEncargo"], true)
                     ];
                 }
             }
