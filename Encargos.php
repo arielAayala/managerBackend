@@ -1,6 +1,6 @@
 <?php
     header("Access-Control-Allow-Origin: http://localhost:3000");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, OPTIONS");
     header("Content-Type: JSON");
     require_once "models/EncargosClass.php";
     
@@ -38,7 +38,21 @@
             }else{
                 http_response_code(405);
             }
-            break;   
+            break;
+            
+        case 'PATCH':
+            $datos = json_decode(file_get_contents("php://input"));
+            if($datos){
+                if (Encargos::patch($_GET["idEncargo"], $datos->idUsuarioResponsable)) {
+                    http_response_code(200);
+                } else {
+                    http_response_code(400);
+                }
+                
+            }else{
+                http_response_code(405);
+            }
+            break;
     }
 
 ?>

@@ -1,11 +1,12 @@
 <?php
 
     include_once "models/NotasClass.php";
-
+    header("Access-Control-Allow-Origin: http://localhost:3000");
+    header("Access-Control-Allow-Methods: GET, POST");
+    header("Content-Type: JSON");
     switch ($_SERVER["REQUEST_METHOD"]) {
 
         case 'GET':
-            header("Content-Type: JSON");
             if (isset($_GET["idEncargo"])){
                 echo json_encode(Notas::getByIdEncargo($_GET["idEncargo"]));
             }

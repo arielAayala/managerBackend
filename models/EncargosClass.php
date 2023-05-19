@@ -6,7 +6,13 @@
 
         public static function getAll(){
             $db = new Connection();
-            $query = "SELECT e.idEncargo, e.tituloEncargo, estados.nombreEstado, e.fechaCreacionEncargo, d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, CONCAT('[', GROUP_CONCAT( CONCAT('{\"nombreMotivo\": \"',m.nombreMotivo,'\"}')), ']') as motivosEncargo FROM encargos e INNER JOIN estados ON e.idEstado = estados.idEstado LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo LEFT JOIN encargos_motivos em ON em.idEncargo = e.idEncargo LEFT JOIN motivos m ON em.idMotivo = m.idMotivo GROUP BY e.idEncargo, e.tituloEncargo, estados.nombreEstado, e.fechaCreacionEncargo, nombreResponsable, fotoResponsable";
+            $query = "SELECT e.idEncargo, e.idMotivo, e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, m.nombreMotivo, t.nombreTipo 
+            FROM encargos e 
+            INNER JOIN estados ON e.idEstado = estados.idEstado
+            INNER JOIN tipos t ON e.idTipo = t.idTipo 
+            LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
+            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo 
+            LEFT JOIN motivos m ON e.idMotivo = m.idMotivo";
             $resultado = $db->query($query);
             $datos =[];
             if($resultado->num_rows>=0){
@@ -15,10 +21,14 @@
                         "idEncargo" => $row["idEncargo"],
                         "tituloEncargo" => $row["tituloEncargo"],
                         "nombreEstado" => $row["nombreEstado"],
+                        "idEstado" => $row["idEstado"],
+                        "nombreTipo" => $row["nombreTipo"],
+                        "idTipo" => $row["idTipo"],
+                        "nombreMotivo" => $row["nombreMotivo"],
+                        "idMotivo" => $row["idMotivo"],
                         "nombreResponsable" => $row["nombreResponsable"],
                         "fotoResponsable" => $row["fotoResponsable"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
-                        "motivosEncargo" => json_decode($row["motivosEncargo"], true)
                     ];
                 }
             }
@@ -100,5 +110,14 @@
             return FALSE;
         }
 
+
+        public static function patch($idEncargo,$idUsuarioResponsable){
+            $con = new Connection();
+            $query = "UPDATE encargos SET idUsuarioResponsable =$idUsuarioResponsable WHERE idEncargo = $idEncargo";
+            if ($con -> query($query)) {
+                return TRUE;
+            }
+            return False;
+        }
     }
 ?>
