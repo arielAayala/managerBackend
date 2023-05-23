@@ -77,18 +77,19 @@
             return $datos;
         }
 
-        public static function insert($tituloEncargo,$idTipo,$idEstado,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$fechaCreacionEncargo,$descripcionEncargo){
+        public static function insert($tituloEncargo,$idTipo,$idMotivo,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$descripcionEncargo){
             
             $con = new Connection();
             $idUsuarioResponsable = $idUsuarioResponsable ? $idUsuarioResponsable: NULL;
-            $query = "INSERT INTO encargos (tituloEncargo,idTipo,idEstado,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
+            $query = "INSERT INTO encargos (tituloEncargo,idTipo,idEstado, idMotivo,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
                 '$tituloEncargo',
                 $idTipo, 
-                $idEstado,
+                1,
+                $idMotivo,
                 $idUsuarioCreador,
                 $idUsuarioResponsable, 
                 $idInstitucion, 
-                '$fechaCreacionEncargo', 
+                CURDATE() , 
                 NULL,
                 '$descripcionEncargo'
             );";

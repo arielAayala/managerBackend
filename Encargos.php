@@ -1,6 +1,6 @@
 <?php
     header("Access-Control-Allow-Origin: http://localhost:3000");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, OPTIONS");
+    header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH");
     header("Content-Type: JSON");
     require_once "models/EncargosClass.php";
     
@@ -17,7 +17,7 @@
 
             $datos = json_decode(file_get_contents("php://input"));
             if($datos){
-                if (Encargos::insert($datos->tituloEncargo,$datos->idTipo, $datos->idEstado, $datos->idUsuarioCreador, $datos->idUsuarioResponsable, $datos->idInstitucion, $datos->fechaCreacionEncargo, $datos->descripcionEncargo)) {
+                if (Encargos::insert($datos->tituloEncargo, $datos->idTipo, $datos->idMotivo, $datos->idUsuarioCreador, $datos->idUsuarioResponsable, $datos->idInstitucion, $datos->descripcionEncargo)) {
                     http_response_code(200);
                 }else{
                     http_response_code(400);

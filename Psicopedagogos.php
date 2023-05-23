@@ -1,10 +1,12 @@
 <?php
 
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, PUT");
+header("Content-Type: JSON");
 include_once "models/PsicopedagogosClass.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'GET':
-        header("Content-Type: JSON");
         if(isset($_GET["idPsicopedagogo"])){
             echo json_encode(Psicopedagogos::getById($_GET["idPsicopedagogo"]));
         }else{
