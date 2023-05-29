@@ -2,7 +2,7 @@
 
     include_once "connectionDB/ConnectionDB.PHP";
 
-    class Anexos {
+    class EncargosAnexos {
 
         public static function getByIdEncargo($idEncargo){
             $con = new Connection();
@@ -22,28 +22,12 @@
             return $datos;
         }
 
-        public static function insert($idEncargo, $idNota, $urlAnexo){
-            if ($idEncargo == NULL && $idNota == NULL) {
-                return FALSE;
-            }
-            
-            if (!(is_int($idEncargo))){
-                return FALSE;
-            }
-            
-            if (!(is_int($idNota)) && !($idNota == NULL)){
-                return FALSE;
-            }
-            
-            if (strlen($urlAnexo) == 0){
-                return FALSE;   
-            }
+        public static function insert($idEncargo, $urlEncargoAnexo){
             
             $con = new Connection();
-            $query = "INSERT INTO anexos(idEncargo, idNota, urlAnexo) VALUES(
-                ".($idEncargo ? $idEncargo : 'NULL').",
-                ".($idNota ? $idNota : 'NULL').",
-                '$urlAnexo'
+            $query = "INSERT INTO anexos( idEncargo, urlEncargoAnexo) VALUES(
+                $idEncargo,
+                '$urlEncargoAnexo'
             )";
 
             if( $con -> query($query)){

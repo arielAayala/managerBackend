@@ -6,7 +6,7 @@
 
         public static function getAll(){
             $db = new Connection();
-            $query = "SELECT e.idEncargo, e.idMotivo, e.idInstitucion, i.nombreInstitucion ,e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
+            $query = "SELECT e.idEncargo, e.descripcionEncargo ,e.idMotivo, e.idInstitucion, i.nombreInstitucion ,e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
             e.idUsuarioResponsable ,d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, m.nombreMotivo, t.nombreTipo 
             FROM encargos e 
             INNER JOIN estados ON e.idEstado = estados.idEstado
@@ -39,6 +39,7 @@
                         "nombreResponsable" => $row["nombreResponsable"],
                         "fotoResponsable" => $row["fotoResponsable"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
+                        "descripcionEncargo" => $row["descripcionEncargo"],
                     ];
                 }
             }
@@ -90,25 +91,29 @@
         public static function insert($tituloEncargo,$idTipo,$idMotivo,$idUsuarioCreador,$idUsuarioResponsable,$idInstitucion,$descripcionEncargo){
             
             $con = new Connection();
-            $idUsuarioResponsable = $idUsuarioResponsable ? $idUsuarioResponsable: NULL;
-            $query = "INSERT INTO encargos (tituloEncargo,idTipo,idEstado, idMotivo,idUsuarioCreador,idUsuarioResponsable,idInstitucion,fechaCreacionEncargo,fechaCierreEncargo,descripcionEncargo) VALUES (
+            $idUsuarioResponsable = $idUsuarioResponsable== NULL ? 'NULL': $idUsuarioResponsable;
+            $query = "INSERT INTO encargos (tituloEncargo, idTipo, idEstado, idMotivo, idUsuarioCreador, idUsuarioResponsable, idInstitucion, fechaCreacionEncargo, fechaCierreEncargo, descripcionEncargo) 
+            VALUES (
                 '$tituloEncargo',
-                $idTipo, 
+                $idTipo,
                 1,
                 $idMotivo,
                 $idUsuarioCreador,
-                $idUsuarioResponsable, 
-                $idInstitucion, 
-                CURDATE() , 
+                $idUsuarioResponsable,
+                $idInstitucion,
+                CURDATE(),
                 NULL,
                 '$descripcionEncargo'
-            );";
+            )";
             
-            if ($con -> query($query)){
+            if ($con->query($query)) {
+                echo json_encode( [ "idEncargo"=> $con ->  insert_id]);
                 return TRUE;
             }
-            echo $con -> error;
+            echo $con->error;
             return FALSE;
+            
+
         }
 
         public static function update($idEncargo, $tituloEncargo,$idTipo,$idEstado,$idUsuarioResponsable,$idInstitucion,$descripcionEncargo){
