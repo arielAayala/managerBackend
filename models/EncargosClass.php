@@ -48,17 +48,17 @@
 
         public static function getById($idEncargo){
             $con = new Connection();
-            $query = "SELECT e.idEncargo, e.tituloEncargo, e.idTipo,e.idEstado,e.idInstitucion,t.nombreTipo, estados.nombreEstado, i.nombreInstitucion, e.fechaCreacionEncargo, e.fechaCierreEncargo, e.descripcionEncargo, 
-            e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
-            e.idUsuarioResponsable, d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable 
+            $query = "SELECT e.idEncargo, e.descripcionEncargo ,e.idMotivo, e.idInstitucion, i.nombreInstitucion ,e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
+            e.idUsuarioResponsable ,d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, m.nombreMotivo, t.nombreTipo 
             FROM encargos e 
-            INNER JOIN tipos t ON e.idTipo = t.idTipo 
-            INNER JOIN estados ON e.idEstado = estados.idEstado 
+            INNER JOIN estados ON e.idEstado = estados.idEstado
+            INNER JOIN tipos t ON e.idTipo = t.idTipo
             INNER JOIN instituciones i ON e.idInstitucion = i.idInstitucion 
             INNER JOIN usuarios u ON e.idUsuarioCreador = u.idUsuario 
-            INNER JOIN psicopedagogos p ON u.idPsicopedagogo = p.idPsicopedagogo 
+            INNER JOIN psicopedagogos p ON u.idPsicopedagogo = p.idPsicopedagogo  
             LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
-            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo
+            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo 
+            LEFT JOIN motivos m ON e.idMotivo = m.idMotivo
             WHERE e.idEncargo = $idEncargo";
             $resultado = $con->query($query);
             $datos =[];
@@ -67,20 +67,21 @@
                     $datos[] =[
                         "idEncargo" => $row["idEncargo"],
                         "tituloEncargo" => $row["tituloEncargo"],
-                        "nombreTipo" => $row["nombreTipo"],
-                        "idTipo" => $row["idTipo"],
                         "nombreEstado" => $row["nombreEstado"],
                         "idEstado" => $row["idEstado"],
+                        "nombreTipo" => $row["nombreTipo"],
+                        "idTipo" => $row["idTipo"],
+                        "nombreMotivo" => $row["nombreMotivo"],
+                        "idMotivo" => $row["idMotivo"],
+                        "idInstitucion" => $row["idInstitucion"],
+                        "nombreInstitucion" => $row["nombreInstitucion"],
                         "idUsuarioCreador" => $row["idUsuarioCreador"],
                         "nombreCreador" => $row["nombreCreador"],
                         "fotoCreador" => $row["fotoCreador"],
                         "idUsuarioResponsable" => $row["idUsuarioResponsable"],
                         "nombreResponsable" => $row["nombreResponsable"],
                         "fotoResponsable" => $row["fotoResponsable"],
-                        "nombreInstitucion" => $row["nombreInstitucion"],
-                        "idInstitucion" => $row["idInstitucion"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
-                        "fechaCierreEncargo" => $row["fechaCierreEncargo"],
                         "descripcionEncargo" => $row["descripcionEncargo"],
                     ];
                 }
@@ -116,9 +117,16 @@
 
         }
 
-        public static function update($idEncargo, $tituloEncargo,$idTipo,$idEstado,$idUsuarioResponsable,$idInstitucion,$descripcionEncargo){
+        public static function update($idEncargo, $tituloEncargo,$idTipo,$idEstado,$idUsuarioResponsable,$idInstitucion,$descripcionEncargo, $idMotivo){
             $con = new Connection();
-            $query = "UPDATE encargos SET tituloEncargo = '$tituloEncargo', idTipo = $idTipo, idEstado = $idEstado,  idUsuarioResponsable = $idUsuarioResponsable, idInstitucion = $idInstitucion, descripcionEncargo = '$descripcionEncargo'
+            $query = "UPDATE encargos SET 
+            tituloEncargo = '$tituloEncargo', 
+            idTipo = $idTipo, 
+            idEstado = $idEstado,  
+            idUsuarioResponsable = $idUsuarioResponsable, 
+            idInstitucion = $idInstitucion, 
+            descripcionEncargo = '$descripcionEncargo',
+            idMotivo = $idMotivo
             WHERE idEncargo = $idEncargo";
             if ($con -> query($query)){
                 return TRUE;
