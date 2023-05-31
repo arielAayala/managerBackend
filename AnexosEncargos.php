@@ -13,19 +13,24 @@ header("Content-Type: JSON");
             break;
 
         case 'POST':
-                if (isset($_GET["idEncargo"])){
-                    echo "entre";
-                    $dir = "/encargosAnexos";
-                    $nameFile =$_GET["idEncargo"] ."-".$_FILES["file"]["name"];
-                    $urlFile = $dir."/".$nameFile;
-                    move_uploaded_file($_FILES["files"]["tmp_name"],$urlFile);
-                    if (EncargosAnexos:: insert($_GET["idEncargo"],$urlFile )) {
+            if (isset($_GET["idEncargo"]) && isset($_FILES["file"])) {
+                $dir = "encargosAnexos";
+                $nameFile = $_GET["idEncargo"] . "-" . $_FILES["file"]["name"];
+                $urlFile = $dir . "/" . $nameFile;
+        
+                if (move_uploaded_file($_FILES["file"]["tmp_name"], $urlFile)) {
+                    if (EncargosAnexos::insert($_FILES["file"]["name"],$_GET["idEncargo"], $urlFile)) {
                         http_response_code(200);
-                    }else{
-                        http_response_code(205);
+                    } else {
+                        http_response_code(400);
                     }
+                } else {
+                    http_response_code(400);
                 }
-            
+            } else {
+                http_response_code(400);
+            }
+            echo $_FILES['file']['error'];
             break;
         
         default:

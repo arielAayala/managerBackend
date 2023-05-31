@@ -15,6 +15,7 @@
                         "idEncargoAnexo" => $row["idEncargoAnexo"],
                         "idEncargo" => $row["idEncargo"],
                         "urlEncargoAnexo" => $row["urlEncargoAnexo"],
+                        "nombreEncargoAnexo" =>$row["nombreEncargoAnexo"]
                     ];
                 }
             }
@@ -22,10 +23,11 @@
             return $datos;
         }
 
-        public static function insert($idEncargo, $urlEncargoAnexo){
+        public static function insert($nombreEncargoAnexo,$idEncargo, $urlEncargoAnexo){
             
             $con = new Connection();
-            $query = "INSERT INTO anexos( idEncargo, urlEncargoAnexo) VALUES(
+            $query = "INSERT INTO encargos_anexos( nombreEncargoAnexo ,idEncargo, urlEncargoAnexo) VALUES(
+                '$nombreEncargoAnexo',
                 $idEncargo,
                 '$urlEncargoAnexo'
             )";
