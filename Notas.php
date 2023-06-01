@@ -14,8 +14,9 @@
 
         case 'POST':
             $datos = json_decode(file_get_contents("php://input"));
-            if($datos){
-                if(Notas::insert($datos-> idEncargo ,$datos-> idUsuarioCreador, $datos-> idNuevoResponsable, $datos-> fechaCreacionNota, $datos-> comentarioNota)){
+
+            if($datos &&  isset($_GET["idEncargo"])){
+                if(Notas::insert($_GET["idEncargo"] ,$datos-> idUsuarioCreador,   $datos-> comentarioNota)){
                     http_response_code(200);
                 }else{
                     http_response_code(400);

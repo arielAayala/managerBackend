@@ -3,22 +3,16 @@
 
     class Notas{
         /* Funcion para crear Notas en la base de datos, tambien se valida los datos  */
-        public static function insert($idEncargo, $idUsuarioCreador, $idNuevoResponsable, $fechaCreacionNota, $comentarioNota){
-            if(!(is_int($idNuevoResponsable)) && !($idNuevoResponsable == NULL)){
-                echo "hola";
-                return FALSE;
-            }
-            
-            if(!(is_int($idEncargo)) ||  !(is_int($idUsuarioCreador)) ){
-                return FALSE;
-            }
 
+        
+        public static function insert($idEncargo, $idUsuarioCreador,  $comentarioNota){
+            $idNuevoResponsable =  'NULL';
             $con = new Connection();
             $query = "INSERT INTO notas(idEncargo, idUsuarioCreador, idNuevoResponsable, fechaCreacionNota, comentarioNota) VALUES(
                 $idEncargo,
                 $idUsuarioCreador,
-                " . ($idNuevoResponsable ? $idNuevoResponsable : 'NULL') . ", 
-                '$fechaCreacionNota',
+                $idNuevoResponsable, 
+                CURDATE(),
                 '$comentarioNota'
             )";
             if( $con ->query($query)){
