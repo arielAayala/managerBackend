@@ -16,6 +16,7 @@
                 '$comentarioNota'
             )";
             if( $con ->query($query)){
+                echo json_encode( [ "idNota"=> $con ->  insert_id]);
                 return TRUE;
             }
             
