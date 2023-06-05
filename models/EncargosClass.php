@@ -48,7 +48,7 @@
 
         public static function getById($idEncargo){
             $con = new Connection();
-            $query = "SELECT e.idEncargo, e.descripcionEncargo ,e.idMotivo, e.idInstitucion, i.nombreInstitucion ,e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
+            $query = "SELECT e.idEncargo, e.descripcionEncargo,e.fechaCierreEncargo ,e.idMotivo, e.idInstitucion, i.nombreInstitucion ,e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
             e.idUsuarioResponsable ,d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, m.nombreMotivo, t.nombreTipo 
             FROM encargos e 
             INNER JOIN estados ON e.idEstado = estados.idEstado
@@ -83,6 +83,7 @@
                         "fotoResponsable" => $row["fotoResponsable"],
                         "fechaCreacionEncargo" => $row["fechaCreacionEncargo"],
                         "descripcionEncargo" => $row["descripcionEncargo"],
+                        "fechaCierreEncargo" =>$row["fechaCierreEncargo"]
                     ];
                 }
             }
@@ -117,22 +118,31 @@
 
         }
 
-        public static function update($idEncargo, $tituloEncargo,$idTipo,$idEstado,$idUsuarioResponsable,$idInstitucion,$descripcionEncargo, $idMotivo){
+        public static function update($idEncargo, $tituloEncargo, $idTipo, $idEstado, $idUsuarioResponsable, $idInstitucion, $descripcionEncargo, $idMotivo, $fechaCierreEncargo) {
             $con = new Connection();
+        
+            $fechaCierreEncargo = $fechaCierreEncargo==TRUE ? "'" . (new DateTime())->format('Y-m-d') . "'" : 'NULL';
+
+        
             $query = "UPDATE encargos SET 
-            tituloEncargo = '$tituloEncargo', 
-            idTipo = $idTipo, 
-            idEstado = $idEstado,  
-            idUsuarioResponsable = $idUsuarioResponsable, 
-            idInstitucion = $idInstitucion, 
-            descripcionEncargo = '$descripcionEncargo',
-            idMotivo = $idMotivo
-            WHERE idEncargo = $idEncargo";
-            if ($con -> query($query)){
-                return TRUE;
+                    tituloEncargo = '$tituloEncargo', 
+                    idTipo = $idTipo, 
+                    idEstado = $idEstado,  
+                    idUsuarioResponsable = $idUsuarioResponsable, 
+                    idInstitucion = $idInstitucion, 
+                    descripcionEncargo = '$descripcionEncargo',
+                    idMotivo = $idMotivo,
+                    fechaCierreEncargo = $fechaCierreEncargo 
+                    WHERE idEncargo = $idEncargo";
+        
+            echo $query;
+            if ($con->query($query)) {
+                return true;
             }
-            return FALSE;
+            echo $con-> error;
+            return false;
         }
+        
 
 
         public static function patch($idEncargo,$idUsuarioResponsable){

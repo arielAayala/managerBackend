@@ -21,16 +21,10 @@
         }
 
         public static function insert($nombreInstitucion, $idLocalidad, $nombreResponsableInstitucion, $domicilioInstitucion){
-            if(!(is_int($idLocalidad))){
-                return FALSE;
-            }
 
-            if( strlen($nombreInstitucion)== 0 && strlen($domicilioInstitucion) == 0 && strlen($nombreResponsableInstitucion)== 0){
-                return FALSE;
-            }
 
             $con = new Connection();
-            $query = "INSERT INTO instituciones(nombreInstitucion, idLocalidad, nombreResponsableInstitucion, domicilioInstitucion) VALUES(
+            $query = "INSERT INTO instituciones(nombreInstitucion, idLocalidad, responsableInstitucion, domicilioInstitucion) VALUES(
                 '$nombreInstitucion',
                 $idLocalidad,
                 '$nombreResponsableInstitucion',

@@ -30,7 +30,7 @@
         case 'PUT':
             $datos = json_decode(file_get_contents("php://input"));
             if($datos){
-                if (Encargos::update($_GET["idEncargo"], $datos->tituloEncargo,$datos->idTipo, $datos->idEstado, $datos->idUsuarioResponsable, $datos->idInstitucion,  $datos->descripcionEncargo, $datos-> idMotivo )) {
+                if (Encargos::update($_GET["idEncargo"], $datos->tituloEncargo,$datos->idTipo, $datos->idEstado, $datos->idUsuarioResponsable, $datos->idInstitucion,  $datos->descripcionEncargo, $datos-> idMotivo,$datos->fechaCierreEncargo )) {
                     http_response_code(200);
                 }else{
                     http_response_code(400);
