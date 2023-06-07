@@ -49,25 +49,14 @@ class Psicopedagogos{
     }
 
     public static function insert( $nombrePsicopedagogo, $dniPsicopedagogo, $nacimientoPsicopedagogo){
-        if (!(is_string($nombrePsicopedagogo)) && !(strlen($nombrePsicopedagogo) > 0 ) ){
-            return FALSE;
-        }
+
         if( !(strlen(strval($dniPsicopedagogo)) == 8) && !(is_numeric($dniPsicopedagogo)) ){
             return FALSE;
         }
-
-        function validateDate($date, $format = 'Y-m-d'){
-            $d = DateTime::createFromFormat($format, $date);
-            return $d && $d->format($format) === $date;
-        }
-
-        if (!( validateDate($nacimientoPsicopedagogo))){
-            return FALSE;
-        }
-
+        $nombrePsicopedagogo =strtolower($nombrePsicopedagogo);
         $con = new Connection();
         $query = "INSERT INTO psicopedagogos(nombrePsicopedagogo, dniPsicopedagogo, nacimientoPsicopedagogo) VALUES(
-            '".strtolower($nombrePsicopedagogo)."',
+            '$nombrePsicopedagogo',
             $dniPsicopedagogo,
             '$nacimientoPsicopedagogo'
         )";
@@ -87,22 +76,12 @@ class Psicopedagogos{
     }
 
     public static function update($idPsicopedagogo, $nombrePsicopedagogo, $dniPsicopedagogo, $nacimientoPsicopedagogo){
-        if (!(is_string($nombrePsicopedagogo)) && !(strlen($nombrePsicopedagogo) > 0 ) ){
-            return FALSE;
-        }
+        
         if( !(strlen(strval($dniPsicopedagogo)) == 8) && !(is_numeric($dniPsicopedagogo)) ){
             return FALSE;
         }
 
-        function validateDate($date, $format = 'Y-m-d'){
-            $d = DateTime::createFromFormat($format, $date);
-            return $d && $d->format($format) === $date;
-        }
-
-        if (!( validateDate($nacimientoPsicopedagogo))){
-            return FALSE;
-        }
-
+        
         $con = new Connection();
         $query = "UPDATE psicopedagogos SET
         nombrePsicopedagogo = '".strtolower($nombrePsicopedagogo)."',

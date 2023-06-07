@@ -39,7 +39,8 @@
                 LEFT JOIN psicopedagogos g on s.idPsicopedagogo = g.idPsicopedagogo 
                 LEFT JOIN notas_anexos na on na.idNota = n.idNota 
                 WHERE n.idEncargo = $idEncargo
-                GROUP BY n.idNota ";
+                GROUP BY n.idNota
+                 ";
             $datos=[];
             $resultado = $con -> query($query);
             if ($resultado -> num_rows >= 0 ){

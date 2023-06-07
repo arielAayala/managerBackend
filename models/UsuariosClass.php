@@ -29,7 +29,7 @@ class Usuarios{
 
     public static function getAll(){
         $con = new Connection();
-        $query = "SELECT u.idUsuario, p.nombrePsicopedagogo FROM usuarios u INNER JOIN  psicopedagogos p ON p.idPsicopedagogo = u.idPsicopedagogo ";
+        $query = "SELECT u.idUsuario, p.nombrePsicopedagogo FROM usuarios u INNER JOIN  psicopedagogos p ON p.idPsicopedagogo = u.idPsicopedagogo";
         $resultado = $con->query($query);
         $datos=[];
         if ($resultado -> num_rows >=0) {

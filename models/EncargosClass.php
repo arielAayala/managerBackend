@@ -6,17 +6,9 @@
 
         public static function getAll(){
             $db = new Connection();
-            $query = "SELECT e.idEncargo, e.descripcionEncargo ,e.idMotivo, e.idInstitucion, i.nombreInstitucion ,e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
-            e.idUsuarioResponsable ,d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, m.nombreMotivo, t.nombreTipo 
-            FROM encargos e 
-            INNER JOIN estados ON e.idEstado = estados.idEstado
-            INNER JOIN tipos t ON e.idTipo = t.idTipo
-            INNER JOIN instituciones i ON e.idInstitucion = i.idInstitucion 
-            INNER JOIN usuarios u ON e.idUsuarioCreador = u.idUsuario 
-            INNER JOIN psicopedagogos p ON u.idPsicopedagogo = p.idPsicopedagogo  
-            LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
-            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo 
-            LEFT JOIN motivos m ON e.idMotivo = m.idMotivo";
+            $query = "SELECT idEncargo, descripcionEncargo ,idMotivo, idInstitucion, nombreInstitucion ,idTipo, tituloEncargo, idEstado, nombreEstado, fechaCreacionEncargo, idUsuarioCreador,  nombreCreador,  fotoCreador,
+            idUsuarioResponsable , nombreResponsable,  fotoResponsable, nombreMotivo, nombreTipo 
+            FROM vista_encargos";
             $resultado = $db->query($query);
             $datos =[];
             if($resultado->num_rows>=0){
@@ -48,18 +40,10 @@
 
         public static function getById($idEncargo){
             $con = new Connection();
-            $query = "SELECT e.idEncargo, e.descripcionEncargo,e.fechaCierreEncargo ,e.idMotivo, e.idInstitucion, i.nombreInstitucion ,e.idTipo, e.tituloEncargo, e.idEstado, estados.nombreEstado, e.fechaCreacionEncargo, e.idUsuarioCreador, p.nombrePsicopedagogo as nombreCreador, p.fotoPsicopedagogo as fotoCreador,
-            e.idUsuarioResponsable ,d.nombrePsicopedagogo as nombreResponsable, d.fotoPsicopedagogo as fotoResponsable, m.nombreMotivo, t.nombreTipo 
-            FROM encargos e 
-            INNER JOIN estados ON e.idEstado = estados.idEstado
-            INNER JOIN tipos t ON e.idTipo = t.idTipo
-            INNER JOIN instituciones i ON e.idInstitucion = i.idInstitucion 
-            INNER JOIN usuarios u ON e.idUsuarioCreador = u.idUsuario 
-            INNER JOIN psicopedagogos p ON u.idPsicopedagogo = p.idPsicopedagogo  
-            LEFT JOIN usuarios s ON e.idUsuarioResponsable = s.idUsuario 
-            LEFT JOIN psicopedagogos d ON d.idPsicopedagogo = s.idPsicopedagogo 
-            LEFT JOIN motivos m ON e.idMotivo = m.idMotivo
-            WHERE e.idEncargo = $idEncargo";
+            $query = "SELECT idEncargo, descripcionEncargo,fechaCierreEncargo ,idMotivo, idInstitucion, nombreInstitucion ,idTipo, tituloEncargo, idEstado, nombreEstado, fechaCreacionEncargo, idUsuarioCreador,  nombreCreador,  fotoCreador,
+            idUsuarioResponsable , nombreResponsable,  fotoResponsable, nombreMotivo, nombreTipo 
+            FROM vista_encargos
+            WHERE idEncargo = $idEncargo";
             $resultado = $con->query($query);
             $datos =[];
             if($resultado->num_rows>=0){
